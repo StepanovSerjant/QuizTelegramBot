@@ -26,8 +26,7 @@ def set_new_quiz():
 
         current_variables = cfg.QUESTIONS[question_id]['variables']
         for var in current_variables:
-            variab = QuestionVariable(variable=var, q_id=id)
-            session.add(variab)
+            session.add(QuestionVariable(variable=var, q_id=id))
             session.commit()
 
 

@@ -10,10 +10,3 @@ Session = sessionmaker()
 Session.configure(bind=engine)
 
 session = Session()
-
-
-# import os
-# DATABASE_ENGINE = 'sqlite:///'
-# DATABASE_DIR = pathlib.Path.cwd()
-# DATABASE_NAME = 'databasequiz.db'
-# DATABASE = ''.join([DATABASE_ENGINE, os.path.join(DATABASE_DIR, DATABASE_NAME)])

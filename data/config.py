@@ -8,7 +8,7 @@ load_dotenv()
 BOT_TOKEN = str(os.getenv('BOT_TOKEN'))
 
 WEBHOOK_HOST = str(os.getenv('WEBHOOK_HOST'))
-WEBHOOK_PATH = str(os.getenv('WEBHOOK_PATH'))
+WEBHOOK_PATH = f'/{BOT_TOKEN}'
 WEBHOOK_URL = ''.join([WEBHOOK_HOST, WEBHOOK_PATH])
 
 WEBAPP_HOST = str(os.getenv('WEBAPP_HOST'))

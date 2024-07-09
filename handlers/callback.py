@@ -2,7 +2,7 @@ from aiogram import types
 from aiogram.dispatcher.webhook import SendMessage
 
 from loader import dp
-from quiz.config import ALL_VARIABLES
+from quiz.texts import ALL_VARIABLES
 from quiz.logic import Player, Quiz
 
 

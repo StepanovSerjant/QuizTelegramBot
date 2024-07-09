@@ -6,7 +6,6 @@ from quiz.config import FOR_RESULTS, RESTART
 
 
 class Player:
-
     def __init__(self, tg_id):
         self.player_id = tg_id
 
@@ -34,8 +33,6 @@ class Player:
 
     def get_q_id(self, add=False):
         """ Получение айди вопроса, на котором остановился игрок """
- 
-        # player_q_id = session.query(models.Player).with_entities(models.Player.current_q_id).filter_by(tg_id=self.player_id).all()
         player_q_id = session.query(models.Player).with_entities(models.Player.current_q_id).filter_by(tg_id=self.player_id).all()
         player_q_id = player_q_id[0][0]
 
@@ -48,34 +45,39 @@ class Player:
 
 class Game:
 
-    def check_player(self, id):
-        """ Проверка существования игрока """
-        player = session.query(models.Player).filter_by(tg_id=id).all()
-        if not player:
-            return False
-        return True
-
-    def create_player(self, id, name=None):
-        """ Создание игрока """
-        if name != None:
-            new_player = models.Player(tg_id=id, name=name)
-        else:
-            new_player = models.Player(tg_id=id)
-        session.add(new_player)
-        session.commit()
-
-    def set_finish_status(self, id, is_finished=True):
-        """ Установка игроку значение поля finished """
-        session.query(models.Player).filter_by(tg_id=id).update({'is_finished': is_finished})
-        session.commit()
-
-    def restart_player(self, id):
+    @classmethod
+    def restart_player(cls, _id: int) -> None:
         """ Рестарт игрока """
         player_answers = session.query(models.PlayerAnswer).filter_by(player_id=id).all()
         for answer in player_answers:
             session.delete(answer)
-        self.set_finish_status(id, False)
-        session.query(models.Player).filter_by(tg_id=id).update({'current_q_id': 1})
+
+        cls.set_finish_status(_id, False)
+        session.query(models.Player).filter_by(tg_id=_id).update({'current_q_id': 1})
+        session.commit()
+
+    @staticmethod
+    def check_player(_id: int) -> bool:
+        """ Проверка существования игрока """
+        player = session.query(models.Player).filter_by(tg_id=_id).all()
+        if not player:
+            return False
+        return True
+
+    @staticmethod
+    def create_player(_id: int, name: Optional[str] = None) -> None:
+        """ Создание игрока """
+        if name != None:
+            new_player = models.Player(tg_id=_id, name=name)
+        else:
+            new_player = models.Player(tg_id=_id)
+        session.add(new_player)
+        session.commit()
+
+    @staticmethod
+    def set_finish_status(_id: int, is_finished: bool = True) -> None:
+        """ Установка игроку значение поля finished """
+        session.query(models.Player).filter_by(tg_id=_id).update({'is_finished': is_finished})
         session.commit()
 
 

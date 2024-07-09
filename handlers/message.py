@@ -2,23 +2,21 @@ from aiogram import types
 from aiogram.dispatcher.webhook import SendMessage
 
 from loader import dp
-from quiz.config import START, RESTART, INFO_MESSAGE
+from quiz.config import START, RESTART
+from quiz.texts import INFO_MESSAGE
 from quiz.logic import Player, Quiz
 
 
-@dp.message_handler(commands=['start', 'help'])
+@dp.message_handler(
+    commands=['start', 'help'],
+    content_types=[
+        types.ContentType.PHOTO,
+        types.ContentType.DOCUMENT,
+        types.ContentType.STICKER,
+    ]
+)
 async def quiz_info(message: types.Message):
     """ Обработка запроса на команды """
-    return SendMessage(message.chat.id, '\n'.join(INFO_MESSAGE))
-
-
-@dp.message_handler(content_types=[
-    types.ContentType.PHOTO,
-    types.ContentType.DOCUMENT,
-    types.ContentType.STICKER
-])
-async def quiz_file(message: types.Message):
-    """ Хендлер обработки запроса с файлом """
     return SendMessage(message.chat.id, '\n'.join(INFO_MESSAGE))
 
 
@@ -45,7 +43,7 @@ async def quiz_restart(message: types.Message):
         text = [
             'Вы еще даже не проходили викторину.',
             'Как я начну еще раз?',
-            f'<strong>Напишите мне лучше слово {start.capitalize()}!</strong>'
+            f'<strong>Напишите мне лучше слово {START.capitalize()}!</strong>'
         ]
         return SendMessage(message.chat.id, '\n'.join(text))
 

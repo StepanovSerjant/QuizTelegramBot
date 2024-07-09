@@ -1,13 +1,5 @@
-from .services import get_all_variables
-
-
 START = 'викторина'
 RESTART = 'заново'
-INFO_MESSAGE = [
-    'Этот бот создан для того, чтоб узнать твои познания в области космонавтики.',
-    f'Напиши мне слово <b>{START.capitalize()}</b>, и мы начнем :)',
-    f'После прохождения викторины её можно начать заново с помощью команды - <b>{RESTART.capitalize()}</b>.'
-]
 
 QUESTIONS = (
     {
@@ -61,8 +53,6 @@ QUESTIONS = (
         'variables': ['803 дня', '418 дней', '921 день', '741 день']
     },
 )
-
-ALL_VARIABLES = get_all_variables(QUESTIONS)
 
 FOR_RESULTS = (
     'Гагарин бы тобой гордился!',

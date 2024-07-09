@@ -17,4 +17,4 @@ WEBAPP_PORT = os.getenv('WEBAPP_PORT')
 DB_DIR = pathlib.Path.cwd()
 DB_ENGINE = 'sqlite:///'
 DB_NAME = f"{os.getenv('DB_NAME', 'databasequiz')}.db"
-DB_BASE = os.path.join([DB_ENGINE, DB_DIR, DB_NAME])
+DB_BASE = os.path.join(DB_ENGINE, DB_DIR, DB_NAME)

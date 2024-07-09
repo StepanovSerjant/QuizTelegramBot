@@ -15,7 +15,6 @@ async def user_answer(call: types.CallbackQuery):
     if len(current_player.all_answers()) == current_game.get_questions_count():
         result = current_game.get_quiz_results(current_player.all_answers())
         return SendMessage(call.from_user.id, current_game.result_answer(result))
-        
     elif len(current_player.all_answers()) >= 0:
         if current_player.add_answer(call.data):
             q_id = current_player.get_q_id(add=True)

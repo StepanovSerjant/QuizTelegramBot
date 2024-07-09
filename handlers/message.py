@@ -9,9 +9,16 @@ from quiz.logic import Player, Quiz
 @dp.message_handler(commands=['start', 'help'])
 async def quiz_info(message: types.Message):
     """ Обработка запроса на команды """
-    # Regular request
-    # await bot.send_message(message.chat.id, message.text)
-    # or reply INTO webhook
+    return SendMessage(message.chat.id, '\n'.join(INFO_MESSAGE))
+
+
+@dp.message_handler(content_types=[
+    types.ContentType.PHOTO,
+    types.ContentType.DOCUMENT,
+    types.ContentType.STICKER
+])
+async def quiz_file(message: types.Message):
+    """ Хендлер обработки запроса с файлом """
     return SendMessage(message.chat.id, '\n'.join(INFO_MESSAGE))
 
 
@@ -22,11 +29,8 @@ async def quiz_restart(message: types.Message):
     current_player = Player(message.chat.id)
 
     if current_game.check_player(message.chat.id):
-        if len(current_player.all_answers()) != current_game.get_questions_count():
-            text = 'Вы еще не завершили викторину, чтобы начать сначала :)'
-            return SendMessage(message.chat.id, text)
-        else:
-            current_game.restart_player(message.chat.id) 
+        if len(current_player.all_answers()) == current_game.get_questions_count():
+            current_game.restart_player(message.chat.id)
             q_id = current_player.get_q_id()
             buttons = current_game.create_buttons(q_id)
             return SendMessage(
@@ -34,6 +38,9 @@ async def quiz_restart(message: types.Message):
                 current_game.get_question(q_id),
                 reply_markup=buttons
             )
+        else:
+            text = 'Вы еще не завершили викторину, чтобы начать сначала :)'
+            return SendMessage(message.chat.id, text)
     else:
         text = [
             'Вы еще даже не проходили викторину.',
@@ -62,13 +69,3 @@ async def quiz_start(message: types.Message):
         message.chat.id, question,
         reply_markup=buttons
     )
-
-
-@dp.message_handler(content_types=[
-        types.ContentType.PHOTO,
-        types.ContentType.DOCUMENT,
-        types.ContentType.STICKER
-    ])
-async def quiz_file(message: types.Message):
-    """ Хендлер обработки запроса с файлом """
-    return SendMessage(message.chat.id, '\n'.join(INFO_MESSAGE))

@@ -1,37 +1,34 @@
-from sqlalchemy import Boolean, Column, DateTime, Integer, String, ForeignKey
+from sqlalchemy import Boolean, Column, DateTime, Integer, ForeignKey, String
 from sqlalchemy.orm import backref, relationship
 from sqlalchemy.ext.declarative import declarative_base
 
-
 Base = declarative_base()
 
+
 class Player(Base):
-    """ Таблица игроков """
-    __tablename__ = 'Players'
+    __tablename__ = 'players'
 
     tg_id = Column(Integer, unique=True, primary_key=True, nullable=True)
     name = Column(String(80), nullable=True)
-    current_q_id = Column(Integer, default=1)  
+    current_q_id = Column(Integer, default=1)
     is_finished = Column(Boolean, default=False)
 
-    def __repr__(self):
-        return "<User(tg_id='%s', name='%s', current_q_id='%s, is_finished='%s')>" % (self.tg_id, self.name, self.current_q_id, self.is_finished)
+    def __str__(self) -> str:
+        return f"<User(tg_id='{self.tg_id}', name='{self.name}', current_q_id='{self.current_q_id}', is_finished='{self.is_finished}')>"
 
 
 class RightAnswer(Base):
-    """ Таблица правильных ответов """
-    __tablename__ = 'RightAnswers'
+    __tablename__ = 'right_answers'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     right_answer = Column(String, nullable=False)
 
-    def __repr__(self):
-        return "<RightAnswer(right_answer='%s')>" % (self.right_answer)
+    def __str__(self) -> str:
+        return f"<RightAnswer(right_answer='{self.right_answer}')>"
 
 
 class Question(Base):
-    """ Таблица вопросов """
-    __tablename__ = 'Questions'
+    __tablename__ = 'questions'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     question = Column(String, nullable=False)
@@ -39,13 +36,12 @@ class Question(Base):
     answer_id = Column(Integer, ForeignKey('RightAnswers.id'), nullable=False)
     answer = relationship('RightAnswer', backref=backref('answers', lazy=True))
 
-    def __repr__(self):
-        return "<Question(question='%s')>" % (self.question)
+    def __str__(self) -> str:
+        return f"<Question(question='{self.question}')>"
 
 
 class QuestionVariable(Base):
-    """ Таблица вариантов ответа """
-    __tablename__ = 'QuestionAnswers'
+    __tablename__ = 'question_answers'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     variable = Column(String, nullable=False)
@@ -53,13 +49,12 @@ class QuestionVariable(Base):
     q_id = Column(Integer, ForeignKey('Questions.id'), unique=False)
     q = relationship('Question', backref=backref('questions', lazy=True))
 
-    def __repr__(self):
-        return "<Question(variable='%s')>" % (self.variable)
+    def __str__(self) -> str:
+        return f"<Question(variable='{self.variable}')>"
 
 
 class PlayerAnswer(Base):
-    """ Таблица ответов игрока """
-    __tablename__ = 'PlayersAnswers'
+    __tablename__ = 'players_answers'
 
     id = Column(Integer, primary_key=True)
 
@@ -71,3 +66,6 @@ class PlayerAnswer(Base):
 
     q_id = Column(Integer, ForeignKey('Questions.id'), nullable=False)
     q = relationship('Question', backref=backref('questionss', lazy=True))
+
+    def __str__(self) -> str:
+        return f"<PlayerAnswer(player_id='{self.player_id}', answer='{self.answer}')>"

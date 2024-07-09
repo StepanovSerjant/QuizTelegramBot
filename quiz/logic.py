@@ -1,3 +1,5 @@
+from typing import Optional
+
 from aiogram import types
 
 import database.models as models

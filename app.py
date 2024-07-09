@@ -7,13 +7,11 @@ from loader import bot
 
 
 async def on_startup(dp):
-    """ Данный код исполняется после запуска """
     create_db()
     await bot.set_webhook(WEBHOOK_URL)
 
 
 async def on_shutdown(dp):
-    """ Данный код исполняется перед падением """
     await bot.delete_webhook()
     await dp.storage.close()
     await dp.storage.wait_closed()

@@ -3,18 +3,18 @@ import pathlib
 
 from dotenv import load_dotenv
 
-
 load_dotenv()
-BOT_TOKEN = str(os.getenv('BOT_TOKEN'))
 
-WEBHOOK_HOST = str(os.getenv('WEBHOOK_HOST'))
+BOT_TOKEN = os.getenv('BOT_TOKEN')
+DATABASE_DIR = pathlib.Path.cwd()
+
+WEBHOOK_HOST = os.getenv('WEBHOOK_HOST')
 WEBHOOK_PATH = f'/{BOT_TOKEN}'
 WEBHOOK_URL = ''.join([WEBHOOK_HOST, WEBHOOK_PATH])
 
-WEBAPP_HOST = str(os.getenv('WEBAPP_HOST'))
+WEBAPP_HOST = os.getenv('WEBAPP_HOST')
 WEBAPP_PORT = os.environ.get('PORT')
 
 DATABASE_ENGINE = 'sqlite:///'
-DATABASE_DIR = pathlib.Path.cwd()
 DATABASE_NAME = 'databasequiz.db'
-DATABASE = ''.join([DATABASE_ENGINE, os.path.join(DATABASE_DIR, DATABASE_NAME)])
+DATABASE = os.path.join([DATABASE_ENGINE, DATABASE_DIR, DATABASE_NAME])

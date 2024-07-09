@@ -28,12 +28,3 @@ def set_new_quiz():
         for var in current_variables:
             session.add(QuestionVariable(variable=var, q_id=id))
             session.commit()
-
-
-def create_db(new_quiz=False):
-    """ Создание БД """
-    if not database_exists(engine.url):
-        Base.metadata.create_all(engine)
-        set_new_quiz()
-    if new_quiz == True:
-        set_new_quiz()

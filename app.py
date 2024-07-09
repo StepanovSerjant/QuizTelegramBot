@@ -1,9 +1,9 @@
 from aiogram.utils.executor import start_webhook
 
-from data.config import WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT, WEBHOOK_URL
-from database.services import create_db
 from handlers import dp
 from loader import bot
+from data.config import WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT, WEBHOOK_URL
+from database.utils import create_db
 
 
 async def on_startup(dp):
